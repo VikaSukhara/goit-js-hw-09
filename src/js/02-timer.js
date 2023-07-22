@@ -4,6 +4,7 @@ import Notiflix from 'notiflix';
 
 
 let choosedDate = null;
+const dataNow = new Date();
 
 const myInput = document.querySelector('#datetime-picker');
 const options = {
@@ -14,7 +15,6 @@ const options = {
   onClose(selectedDates) {
     choosedDate = selectedDates[0];
 
-    const dataNow = new Date();
     if (dataNow > choosedDate) {
       Notiflix.Notify.warning('Please choose a date in the future');
     } else {
@@ -36,16 +36,26 @@ btnStart.disabled = true;
 
 btnStart.addEventListener('click', handlerOnBtnStartClick);
 function handlerOnBtnStartClick() {
-  setInterval(() => {
+  const currentDate = new Date();
+  
+  const interval =  setInterval(() => {
     const currentDate = new Date();
+  
     const timerTime = convertMs(choosedDate - currentDate);
-
-    refs.daysEl.textContent = timerTime.days;
-    refs.hoursEl.textContent = timerTime.hours;
-    refs.minuteEl.textContent = timerTime.minutes;
-    refs.secondsEl.textContent = timerTime.seconds;
+    if(choosedDate >= currentDate){
+      refs.daysEl.textContent = timerTime.days;
+      refs.hoursEl.textContent = timerTime.hours;
+      refs.minuteEl.textContent = timerTime.minutes;
+      refs.secondsEl.textContent = timerTime.seconds;
+    }else{
+      clearInterval(interval);
+      Notiflix.Notify.warning("Time is over")
+    }
   }, 1000);
+
 }
+
+
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
