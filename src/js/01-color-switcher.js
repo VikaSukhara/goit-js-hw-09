@@ -13,7 +13,8 @@ function getRandomHexColor() {
 
 
 function handlerStartChangeColor(event){
-    startBtn.disabled = true; 
+    startBtn.disabled = true;
+    stopBtn.disabled = false;
     regularChangeId = setInterval(changeBodyColor, 1000)
 }
 
